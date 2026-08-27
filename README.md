@@ -3,7 +3,7 @@
 Projet préparé pour GitHub Pages sur le dépôt `baktuselect-serv/baktuselect-serv`.
 
 Production GitHub Pages : `https://baktuselect-serv.github.io/baktuselect-serv/`
-Domaine préparé : `https://www.baktuselect-serv.com/`
+Domaine préparé : ``
 
 ## Structure
 - `index.html` : site public + interface Admin interne
