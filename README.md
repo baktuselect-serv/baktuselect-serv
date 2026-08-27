@@ -1,16 +1,19 @@
-## Hi there 👋
+# BAKTUS ÉLECT SARLU — site officiel
 
-<!--
-**baktuselect-serv/baktuselect-serv** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Projet préparé pour GitHub Pages sur le dépôt `baktuselect-serv/baktuselect-serv`.
 
-Here are some ideas to get you started:
+Production GitHub Pages : `https://baktuselect-serv.github.io/baktuselect-serv/`
+Domaine préparé : `https://www.baktuselect-serv.com/`
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Structure
+- `index.html` : site public + interface Admin interne
+- `404.html` : secours de routage GitHub Pages
+- `CNAME` : domaine personnalisé préparé
+- `assets/` : logo officiel et photos disponibles
+- `supabase-config.js` : URL/anon key Supabase à renseigner
+- `supabase-schema.sql` : schéma et RLS
+
+## Important
+Le fichier `supabase-config.js` contient volontairement des valeurs `YOUR_...` tant que les identifiants publics du projet Supabase réel ne sont pas disponibles. Ne jamais mettre de `service_role` ou mot de passe dans le frontend.
+
+Les réalisations dont une photo ne peut pas être attribuée avec certitude restent sans photo et sont signalées « Photo à classer ».
