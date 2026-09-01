@@ -1,36 +1,18 @@
-# BAKTUS ÉLECT SARLU — Site officiel
+# BAKTUS ÉLECT SARLU — version corrigée
 
-Version corrigée pour GitHub Pages :
-`https://baktuselect-serv.github.io/baktuselect-serv/`
+Cette version corrige l'affichage des réalisations et sécurise la connexion administrateur.
 
-## Structure obligatoire
+## Photos
+- Les 13 réalisations sont conservées.
+- Les 34 photos réellement disponibles dans les éléments fournis sont toutes référencées et affichées.
+- Toutes les photos d'une réalisation sont visibles directement dans sa carte et dans la fenêtre « Voir le projet ».
+- Aucune image fictive « Photo à venir » n'est affichée lorsqu'une photo existe.
+- Les images utilisent `object-fit: contain` pour éviter les recadrages et préserver leur ratio.
 
-Le dépôt doit conserver exactement cette structure :
+## Connexion administrateur
+La connexion utilise exclusivement Supabase Auth (`signInWithPassword`). Aucun mot de passe n'est stocké dans le HTML/JavaScript.
 
-```text
-/
-├── index.html
-├── 404.html
-├── README.md
-├── IMAGE-MANIFEST.md
-├── supabase-config.js
-├── supabase-schema.sql
-└── assets/
-    ├── logo-officiel.png
-    └── 01_electricite_batiment_01.jpg … 13_maintenance_depannage_02.jpg
-```
+Si l'adresse `baktuselect@gmail.com` est correcte mais que le mot de passe est refusé, il faut réinitialiser le mot de passe du compte dans Supabase Auth > Users, puis se reconnecter. Le code du site ne peut pas connaître ni modifier un mot de passe Supabase sans accès administrateur sécurisé.
 
-**Important :** ne pas envoyer uniquement les fichiers image à la racine du dépôt. Le dossier `assets/` doit rester présent.
-
-## Correction des images
-Les chemins d’images sont centralisés avec `assetUrl()` et utilisent `/baktuselect-serv/assets/` sur GitHub Pages. Les images statiques du HTML utilisent `assets/...`, ce qui conserve le bon chemin relatif sous la base GitHub Pages.
-
-## Hero
-Titre officiel :
-**L’EXCELLENCE TECHNIQUE, AU CŒUR DE VOS PROJETS.**
-
-## Langues
-Le sélecteur conserve la langue choisie dans `localStorage` et prend en charge : Français, English, Lingala, Kikongo, Swahili et Tshiluba.
-
-## Photo 1000725427.jpg
-Cette photo n’était pas présente parmi les fichiers disponibles lors de la préparation de cette version. Elle ne doit pas être remplacée par une image fictive. Ajouter le fichier original dans `assets/` lorsqu’il sera fourni.
+## Déploiement GitHub Pages
+Remplacer les fichiers du dépôt par ceux de cette archive, en conservant le dossier `assets/` et `supabase-config.js` à la racine.
