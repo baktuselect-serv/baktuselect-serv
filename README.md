@@ -17,7 +17,7 @@ Le dépôt doit conserver exactement cette structure :
 ├── supabase-schema.sql
 └── assets/
     ├── logo-officiel.png
-    └── image*.jpg
+    └── 01_electricite_batiment_01.jpg … 13_maintenance_depannage_02.jpg
 ```
 
 **Important :** ne pas envoyer uniquement les fichiers image à la racine du dépôt. Le dossier `assets/` doit rester présent.
