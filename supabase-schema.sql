@@ -27,7 +27,7 @@ create table if not exists public.project_photos (
   id uuid primary key default gen_random_uuid(), project_id uuid references public.projects(id) on delete cascade, storage_path text not null, alt_text text not null default '', display_order integer not null default 0, published boolean not null default false, created_at timestamptz not null default now()
 );
 create table if not exists public.inspections (
-  id uuid primary key default gen_random_uuid(), client text not null, company text, address text not null, phone text not null, email text, site_type text, services text[] not null default '{}', description text not null, status text not null default 'Nouvelle', technician_notes text, diagnosis text, recommendations text, inspection_fee numeric, travel_fee numeric, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+  id uuid primary key default gen_random_uuid(), client text not null, company text, address text not null, phone text not null, email text, site_type text, services text[] not null default '{}', description text not null, responsable text, requested_date date, requested_time time, status text not null default 'Nouvelle', technician_notes text, diagnosis text, recommendations text, inspection_fee numeric, travel_fee numeric, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
 );
 create table if not exists public.quotes (
   id uuid primary key default gen_random_uuid(), name text not null, company text, phone text not null, email text, service text, description text not null, status text not null default 'Nouvelle', created_at timestamptz not null default now(), updated_at timestamptz not null default now()
@@ -41,6 +41,16 @@ create table if not exists public.social_settings (
 create table if not exists public.translations (
   id uuid primary key default gen_random_uuid(), lang text not null, key text not null, value text not null, unique(lang,key)
 );
+create table if not exists public.site_visits (
+  id uuid primary key default gen_random_uuid(),
+  visitor_id text not null,
+  visited_at timestamptz not null default now(),
+  path text not null default '/',
+  referrer text,
+  language text,
+  device text,
+  screen_width integer
+);
 
 alter table public.admin_users enable row level security;
 alter table public.services enable row level security;
@@ -51,6 +61,7 @@ alter table public.quotes enable row level security;
 alter table public.messages enable row level security;
 alter table public.social_settings enable row level security;
 alter table public.translations enable row level security;
+alter table public.site_visits enable row level security;
 
 -- Public visitors: only published/active public content.
 create policy "public read active services" on public.services for select using (active = true);
@@ -63,6 +74,9 @@ create policy "public read translations" on public.translations for select using
 create policy "public insert inspections" on public.inspections for insert with check (true);
 create policy "public insert quotes" on public.quotes for insert with check (true);
 create policy "public insert messages" on public.messages for insert with check (true);
+
+create policy "public insert site visits" on public.site_visits for insert with check (true);
+create policy "admins read site visits" on public.site_visits for select using (public.is_admin());
 
 -- Admins may manage private/admin data.
 create policy "admins manage admin_users" on public.admin_users for all using (public.is_admin()) with check (public.is_admin());

@@ -16,3 +16,9 @@ Si l'adresse `baktuselect@gmail.com` est correcte mais que le mot de passe est r
 
 ## Déploiement GitHub Pages
 Remplacer les fichiers du dépôt par ceux de cette archive, en conservant le dossier `assets/` et `supabase-config.js` à la racine.
+
+## Administration finale
+- Exécuter `supabase-schema.sql` dans le SQL Editor Supabase.
+- Créer l'utilisateur Auth administrateur puis insérer son UUID dans `public.admin_users`.
+- Le tableau de bord vérifie `public.is_admin()` avant d'afficher les données privées.
+- Les visites sont anonymisées : aucun IP n'est enregistré. La table `site_visits` est lisible uniquement par les administrateurs.
