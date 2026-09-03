@@ -16,6 +16,24 @@ create or replace function public.is_admin()
 returns boolean language sql stable security definer set search_path = public
 as $$ select exists (select 1 from public.admin_users where user_id = auth.uid()); $$;
 
+-- Bootstrap the known BAKTUS ÉLECT administrator after successful Auth login.
+-- This runs server-side; the administrator email is never exposed in the website UI.
+create or replace function public.bootstrap_admin()
+returns boolean language plpgsql security definer set search_path = public, auth
+as $$
+begin
+  if auth.uid() is null then return false; end if;
+  if lower(coalesce(auth.jwt()->>'email','')) <> 'baktuselect@gmail.com' then return false; end if;
+  insert into public.admin_users(user_id,email)
+  values (auth.uid(), lower(auth.jwt()->>'email'))
+  on conflict (user_id) do nothing;
+  return true;
+end;
+$$;
+
+revoke all on function public.bootstrap_admin() from public;
+grant execute on function public.bootstrap_admin() to authenticated;
+
 create table if not exists public.services (
   id uuid primary key default gen_random_uuid(), title text not null, description text not null default '', image_url text,
   display_order integer not null default 0, active boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
@@ -46,7 +64,9 @@ create table if not exists public.site_visits (
   visitor_id text not null,
   visited_at timestamptz not null default now(),
   path text not null default '/',
+  page text not null default '/',
   referrer text,
+  browser text,
   language text,
   device text,
   screen_width integer
