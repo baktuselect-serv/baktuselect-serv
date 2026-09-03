@@ -12,7 +12,7 @@ Cette version corrige l'affichage des réalisations et sécurise la connexion ad
 ## Connexion administrateur
 La connexion utilise exclusivement Supabase Auth (`signInWithPassword`). Aucun mot de passe n'est stocké dans le HTML/JavaScript.
 
-Si l'adresse `baktuselect@gmail.com` est correcte mais que le mot de passe est refusé, il faut réinitialiser le mot de passe du compte dans Supabase Auth > Users, puis se reconnecter. Le code du site ne peut pas connaître ni modifier un mot de passe Supabase sans accès administrateur sécurisé.
+Si votre identifiant est correct mais que le mot de passe est refusé, il faut réinitialiser le mot de passe du compte dans Supabase Auth > Users, puis se reconnecter. Le code du site ne peut pas connaître ni modifier un mot de passe Supabase sans accès administrateur sécurisé.
 
 ## Déploiement GitHub Pages
 Remplacer les fichiers du dépôt par ceux de cette archive, en conservant le dossier `assets/` et `supabase-config.js` à la racine.
