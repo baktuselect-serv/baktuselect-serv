@@ -4,7 +4,7 @@ Cette version corrige l'affichage des réalisations et sécurise la connexion ad
 
 ## Photos
 - Les 13 réalisations sont conservées.
-- Les 34 photos réellement disponibles dans les éléments fournis sont toutes référencées et affichées.
+- Les 36 photos réellement disponibles dans les éléments fournis sont toutes référencées et affichées.
 - Toutes les photos d'une réalisation sont visibles directement dans sa carte et dans la fenêtre « Voir le projet ».
 - Aucune image fictive « Photo à venir » n'est affichée lorsqu'une photo existe.
 - Les images utilisent `object-fit: contain` pour éviter les recadrages et préserver leur ratio.
