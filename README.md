@@ -22,3 +22,6 @@ Remplacer les fichiers du dépôt par ceux de cette archive, en conservant le do
 - Créer l'utilisateur Auth administrateur puis insérer son UUID dans `public.admin_users`.
 - Le tableau de bord vérifie `public.is_admin()` avant d'afficher les données privées.
 - Les visites sont anonymisées : aucun IP n'est enregistré. La table `site_visits` est lisible uniquement par les administrateurs.
+
+## Correction des formulaires
+Si les formulaires « Demande d'inspection » ou « Demander un devis » affichent une erreur d'envoi, exécuter `FIX-FORMULAIRES-SUPABASE.sql` dans Supabase > SQL Editor. Les demandes reçues apparaissent ensuite dans Espace administrateur > Inspections et Espace administrateur > Demandes de devis.

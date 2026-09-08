@@ -443,7 +443,32 @@ const initialRoute=new URLSearchParams(location.search).get('route'); if(initial
 document.querySelector('.btn-admin').onclick=e=>{e.preventDefault();setRoute('/admin')};
 async function submitPublicForm(table,payload,msgEl,formEl){
   if(!cfg.url||!cfg.anonKey){msgEl.textContent='Service temporairement indisponible : configuration Supabase manquante.';return}
-  try{const c=window.supabase.createClient(cfg.url,cfg.anonKey);const {error}=await c.from(table).insert(payload);if(error)throw error;msgEl.textContent='Votre demande a bien été envoyée.';formEl.reset()}catch(err){msgEl.textContent='Envoi impossible pour le moment. Réessayez dans quelques instants.'}}
+  const btn=formEl.querySelector('button[type=submit]'); if(btn){btn.disabled=true;btn.textContent='Envoi…'}
+  try{
+    if(!window.supabase?.createClient) throw new Error('Le module Supabase n’a pas été chargé.');
+    const c=window.supabase.createClient(cfg.url,cfg.anonKey);
+    const rpcName=table==='inspections'?'submit_inspection':'submit_quote';
+    const rpcArgs=table==='inspections'?{
+      p_client:payload.client,p_company:payload.company,p_address:payload.address,p_phone:payload.phone,p_email:payload.email,
+      p_site_type:payload.site_type,p_services:Array.isArray(payload.services)?payload.services:[],p_description:payload.description,
+      p_responsable:payload.responsable,p_requested_date:payload.requested_date,p_requested_time:payload.requested_time
+    }:{
+      p_name:payload.name,p_company:payload.company,p_phone:payload.phone,p_email:payload.email,p_service:payload.service,p_description:payload.description
+    };
+    let result=await c.rpc(rpcName,rpcArgs);
+    // Compatibilité avec une ancienne base : si la fonction RPC n'existe pas encore, on tente l'insertion directe.
+    if(result.error && /function .* does not exist|could not find the function/i.test(String(result.error.message||''))){
+      result=await c.from(table).insert(payload);
+    }
+    if(result.error) throw result.error;
+    msgEl.textContent=table==='inspections'?'Votre demande d’inspection a bien été envoyée. Nous allons examiner votre demande.':'Votre demande de devis a bien été envoyée. Nous allons examiner votre projet.';
+    msgEl.style.color=''; formEl.reset();
+  }catch(err){
+    console.error('BAKTUS form error',table,err);
+    msgEl.textContent='L’envoi n’a pas abouti. Vérifiez votre connexion ou réessayez dans quelques instants.';
+    msgEl.style.color='';
+  }finally{if(btn){btn.disabled=false;btn.textContent=table==='inspections'?'Envoyer la demande':'📋 Envoyer la demande'}}
+}
 inspectionForm.onsubmit=e=>{e.preventDefault();const fd=new FormData(inspectionForm);submitPublicForm('inspections',{client:fd.get('client')||'',company:fd.get('company')||null,address:fd.get('address')||'',phone:fd.get('phone')||'',email:fd.get('email')||null,site_type:fd.get('site_type')||null,services:fd.getAll('services'),description:fd.get('description')||'',responsable:fd.get('responsable')||null,requested_date:fd.get('date')||null,requested_time:fd.get('time')||null},inspectionMsg,inspectionForm)};
 quoteForm.onsubmit=e=>{e.preventDefault();const fd=new FormData(quoteForm);submitPublicForm('quotes',{name:fd.get('name')||'',company:fd.get('company')||null,phone:fd.get('phone')||'',email:fd.get('email')||null,service:fd.get('service')||null,description:fd.get('description')||''},quoteMsg,quoteForm)};
 document.querySelectorAll('img[src="assets/logo-officiel.png"]').forEach(img=>img.src=assetUrl('logo-officiel.png'));
