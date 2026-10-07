@@ -25,3 +25,6 @@ Remplacer les fichiers du dépôt par ceux de cette archive, en conservant le do
 
 ## Correction des formulaires
 Si les formulaires « Demande d'inspection » ou « Demander un devis » affichent une erreur d'envoi, exécuter `FIX-FORMULAIRES-SUPABASE.sql` dans Supabase > SQL Editor. Les demandes reçues apparaissent ensuite dans Espace administrateur > Inspections et Espace administrateur > Demandes de devis.
+
+### V20 — connexion administrateur
+La connexion administrateur utilise désormais un client REST/Auth local (`assets/supabase-client.js`) au lieu de dépendre du chargement du SDK Supabase depuis un CDN externe. Cela évite l'erreur « Impossible de contacter le serveur » lorsque le CDN n'est pas accessible depuis le téléphone ou le réseau. La clé utilisée reste uniquement la clé publique/anon.
