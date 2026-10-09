@@ -28,3 +28,7 @@ Si les formulaires « Demande d'inspection » ou « Demander un devis » affiche
 
 ### V20 — connexion administrateur
 La connexion administrateur utilise désormais un client REST/Auth local (`assets/supabase-client.js`) au lieu de dépendre du chargement du SDK Supabase depuis un CDN externe. Cela évite l'erreur « Impossible de contacter le serveur » lorsque le CDN n'est pas accessible depuis le téléphone ou le réseau. La clé utilisée reste uniquement la clé publique/anon.
+
+
+### V21 — chargement du module local
+Les scripts de configuration et d’authentification utilisent maintenant le chemin de base du dépôt GitHub Pages, même lorsque la page est ouverte depuis une route interne comme /admin. Cela corrige le cas où le navigateur cherchait le module dans un sous-dossier et affichait « Le module Supabase n’a pas été chargé ».
